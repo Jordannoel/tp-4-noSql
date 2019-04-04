@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -52,23 +49,15 @@ public class NotesController {
 
     /**
      * Renvoie les notes faites par un auteur
+     *
      * @param auteur Nom de l'auteur
      * @return Une Map de notes
      */
 
     private Map<String, Note> getNotesAuteur(String auteur) {
         Map<String, Note> noteMap = noteRepository.findAll();
-        List<Note> notes = new ArrayList<>();
-        for (Map.Entry<String, Note> entry : noteMap.entrySet()) {
-            if (entry.getValue().getAuteur().equals(auteur)) {
-                notes.add(entry.getValue());
-            }
-        }
-        Map<String, Note> notesAuteur = new HashMap<>();
-        for (Note n : notes) {
-            notesAuteur.put(n.getId(), n);
-        }
-        return notesAuteur;
+        noteMap.entrySet().removeIf(entry -> !entry.getValue().getAuteur().equals(auteur));
+        return noteMap;
     }
 
     /**
