@@ -19,6 +19,13 @@ public class NotesController {
         this.noteRepository = noteRepository;
     }
 
+    /**
+     * Gère la requête POST permettant d'ajouter une note
+     *
+     * @param contenu Contenu de la note
+     * @param auteur  Auteur de la note
+     * @return L'id de la note créée
+     */
     @RequestMapping(value = "/notes/{contenu}/{auteur}", method = RequestMethod.POST)
     public String postNote(@PathVariable(value = "contenu") String contenu,
                            @PathVariable(value = "auteur") String auteur) {
@@ -27,21 +34,43 @@ public class NotesController {
         return noteRepository.findById(idNote).getId();
     }
 
+    /**
+     * Gère la requête GET pour retourner toutes les notes créées
+     *
+     * @return Une Map de note contenant toutes les notes
+     */
     @RequestMapping(value = "/notes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Note> getNotes() {
         return noteRepository.findAll();
     }
 
+    /**
+     * Gère la requète GET pour retourner une note en particulier
+     *
+     * @param idNote Id de la note à retourner
+     * @return Une note en particulier
+     */
     @RequestMapping(value = "/notes/{idNote}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Note getNote(@PathVariable(value = "idNote") String idNote) {
         return noteRepository.findById(idNote);
     }
 
+    /**
+     * Gère la requête DELETE qui permer de supprimer une note en particulier
+     *
+     * @param idNote Id de la note à supprimer
+     */
     @RequestMapping(value = "/notes/{idNote}", method = RequestMethod.DELETE)
     public void deleteNote(@PathVariable(value = "idNote") String idNote) {
         noteRepository.delete(idNote);
     }
 
+    /**
+     * Gère la requête GET permettant de s'abonner à un auteur
+     *
+     * @param auteur L'auteur auquel on s'abonne
+     * @return Une Map contenant toutes les notes faites par cet auteur
+     */
     @RequestMapping(value = "/subscribe/{auteur}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Note> subscribe(@PathVariable(value = "auteur") String auteur) {
         return getNotesAuteur(auteur);

@@ -1,7 +1,6 @@
 package com.epsi.guez.tp4nosql.service;
 
 import com.epsi.guez.tp4nosql.model.Note;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
